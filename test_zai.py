@@ -1,12 +1,12 @@
 from openai import OpenAI
 
 client = OpenAI(
-    api_key="sk-96aa52da1310ab1c2ee5e2103e019465e00c54a8206ca0ee",   # ← paste your api key here
+    api_key="sk-1ca684ac426154d52777ac0be5314cc96d2a6e05b6085efe",
     base_url="https://api.ilmu.ai/v1"
 )
 
 response = client.chat.completions.create(
-    model="glm-4.6",
+    model="ilmu-glm-5.1",
     messages=[
         {
             "role": "system",
