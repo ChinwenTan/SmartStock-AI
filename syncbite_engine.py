@@ -11,7 +11,7 @@ class SyncBiteEngine:
         self.client = OpenAI(
             api_key=os.getenv("ILMU_API_KEY"),
             base_url="https://api.ilmu.ai/v1",
-            timeout=30.0 
+            timeout=90.0 
         )
     
     def get_strategic_advice(self, campus_context, inventory_data, max_retries=3):
@@ -51,6 +51,14 @@ class SyncBiteEngine:
                 
                 # If it's a different error or we ran out of retries
                 return f"Strategic Analysis Unavailable after {max_retries} attempts: {e}"
+            
+    # A simple temporary mock if the API stays down
+    def get_mock_advice():
+        return """
+        - ACTION: Launch 'Rainy Day' discount bundle for the 40 sandwiches.
+        - REASONING: Classes are online, student traffic is near zero. Discounting clears stock instead of throwing it away.
+        - IMPACT: Recover RM150 in revenue instead of RM200 loss.
+        """
 
 # --- Simulation Logic ---
 if __name__ == "__main__":
