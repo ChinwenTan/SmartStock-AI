@@ -1,7 +1,7 @@
 from openai import OpenAI
 
 client = OpenAI(
-    api_key="sk-96aa52da1310ab1c2ee5e2103e019465e00c54a8206ca0ee",   # ← paste your key here
+    api_key="sk-96aa52da1310ab1c2ee5e2103e019465e00c54a8206ca0ee",   # ← paste your api key here
     base_url="https://api.ilmu.ai/v1"
 )
 
