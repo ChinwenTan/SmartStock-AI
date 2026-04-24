@@ -165,7 +165,29 @@ export default function StrategyPage({ onNavigate }) {
   const [activeId, setActiveId] = useState(STRATEGIES[0].id)
   const [confirmOpen, setConfirmOpen] = useState(false)
 
+  const [chatInput, setChatInput] = useState('')
+  const [chatResponse, setChatResponse] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
   const active = STRATEGIES.find((s) => s.id === activeId) ?? STRATEGIES[0]
+
+  const handleChat = async () => {
+      if (!chatInput) return;
+      setIsLoading(true);
+      try {
+          const res = await fetch('http://localhost:8000/chat', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ message: chatInput }),
+          });
+          const data = await res.json();
+          setChatResponse(data.reply || data.error);
+      } catch (err) {
+          setChatResponse("Failed to connect to backend.");
+      } finally {
+          setIsLoading(false);
+      }
+  };
 
   const handleExecute = () => {
     setBurstKey((k) => k + 1)
@@ -326,6 +348,38 @@ export default function StrategyPage({ onNavigate }) {
           Generate again
         </button>
       </div>
+
+      {/* AI */}
+      <div className="mt-6 rounded-[32px] border border-black/5 bg-white p-6 shadow-bento">
+        <p className="text-xs font-semibold tracking-wide text-zinc-600">SyncBite Assistant</p>
+        
+        <div className="mt-3 flex flex-col gap-3">
+          {chatResponse && (
+            <div className="rounded-2xl bg-zinc-50 p-4 text-sm text-zinc-800 border border-zinc-100">
+              <strong>Z.AI:</strong> {chatResponse}
+            </div>
+          )}
+          
+          <div className="relative flex items-center">
+            <input
+              type="text"
+              value={chatInput}
+              onChange={(e) => setChatInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleChat()} // Adds Enter key support
+              placeholder="Ask about your stock..."
+              className="w-full rounded-[24px] bg-zinc-100 px-5 py-4 text-sm text-zinc-900 outline-none ring-zinc-200 focus:ring-2"
+            />
+            <button
+              onClick={handleChat}
+              disabled={isLoading}
+              className="absolute right-2 rounded-full bg-ink px-4 py-2 text-xs font-bold text-white transition-opacity disabled:opacity-50"
+            >
+              {isLoading ? '...' : 'Ask'}
+            </button>
+          </div>
+        </div>
+      </div>
+
     </motion.div>
   )
 }
