@@ -118,7 +118,7 @@ export default function Chatbox({ onNavigate }) {
       id: nowId(),
       role: 'assistant',
       type: 'text',
-      text: "Hi! I’m your Bake Diary assistant. Upload a photo, send a voice note, or ask for a promo idea.",
+      text: "Hi! I’m your SyncBite assistant. Upload a photo, send a voice note, or ask for a promo idea.",
     },
   ])
 
@@ -233,7 +233,7 @@ export default function Chatbox({ onNavigate }) {
               <Sparkles size={18} className="text-white" />
             </div>
             <div>
-              <p className="text-sm font-semibold tracking-tight">Bake Diary AI</p>
+              <p className="text-sm font-semibold tracking-tight">SyncBite AI</p>
               <p className="mt-0.5 text-xs text-white/65">Chat • Voice • Photos • Files</p>
             </div>
           </div>
@@ -306,7 +306,7 @@ export default function Chatbox({ onNavigate }) {
               rows={1}
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Message Bake Diary AI…"
+              placeholder="Message SyncBite AI…"
               className="w-full resize-none bg-transparent px-2 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none"
             />
           </div>
