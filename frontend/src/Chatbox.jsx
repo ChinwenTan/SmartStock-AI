@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Camera, ImagePlus, Mic, Paperclip, Plus, Send, Sparkles } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import ReactMarkdown from 'react-markdown';
 
 function nowId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`
@@ -113,19 +114,31 @@ export default function Chatbox({ onNavigate }) {
     setMessages((prev) => [...prev, { id: nowId(), role: 'assistant', type: 'text', text: t }])
   }
 
-  const sendText = () => {
+  const sendText = async () => {
     const t = text.trim()
     if (!t) return
-    setMessages((prev) => [...prev, { id: nowId(), role: 'user', type: 'text', text: t }])
+    
+    // 1. Add User Message to UI
+    const userMsgId = nowId()
+    setMessages((prev) => [...prev, { id: userMsgId, role: 'user', type: 'text', text: t }])
     setText('')
     setShowTools(false)
 
-    // Demo “mature” response (hardcoded)
-    setTimeout(() => {
-      pushAssistant(
-        'Got it. Upload today’s inventory list and I’ll suggest a 2-step promo + bundle that matches the weather.',
-      )
-    }, 450)
+    try {
+      // 2. Call your Python Backend
+      const res = await fetch('http://localhost:8000/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: t }),
+      })
+      
+      const data = await res.json()
+      
+      // 3. Add AI Response to UI
+      pushAssistant(data.reply || data.error)
+    } catch (err) {
+      pushAssistant("I'm having trouble connecting to the server. Is the backend running?")
+    }
   }
 
   const onPickFiles = (files, kind) => {
@@ -208,9 +221,10 @@ export default function Chatbox({ onNavigate }) {
         {messages.map((m) => (
           <Bubble key={m.id} role={m.role}>
             {m.type === 'text' ? (
-              <p className={'text-sm leading-relaxed ' + (m.role === 'user' ? 'text-white/95' : 'text-zinc-800')}>
-                {m.text}
-              </p>
+              <div className={'text-sm leading-relaxed ' + (m.role === 'user' ? 'text-white/95' : 'text-zinc-800')}>
+                {/* Use ReactMarkdown here */}
+                <ReactMarkdown>{m.text}</ReactMarkdown>
+              </div>
             ) : null}
 
             {m.type === 'file' ? (
