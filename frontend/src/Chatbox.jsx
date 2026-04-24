@@ -141,23 +141,34 @@ export default function Chatbox({ onNavigate }) {
     setMessages((prev) => [...prev, { id: nowId(), role: 'assistant', type: 'text', text: t }])
   }
 
-  const sendText = () => {
+  const sendText = async () => {
     const t = text.trim()
     if (!t) return
+    
     setMessages((prev) => [...prev, { id: nowId(), role: 'user', type: 'text', text: t }])
     setText('')
     setShowTools(false)
 
-    // Demo “mature” response (hardcoded)
     setIsTyping(true)
-    setTimeout(() => {
-      pushAssistant(
-        'Got it. Upload today’s inventory list and I’ll suggest a 2-step promo + bundle that matches the weather.',
-      )
-      setIsTyping(false)
-    }, 450)
-  }
 
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/chat';
+    
+      const res = await fetch(`${apiUrl}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: t }),
+      });
+      
+      const data = await res.json();
+      
+      pushAssistant(data.reply || data.error);
+    } catch (err) {
+      pushAssistant("Sorry, something went wrong. Please try again.");
+    } finally {
+      setIsTyping(false);
+    }
+  }
   const onPickFiles = (files, kind) => {
     const arr = Array.from(files || [])
     if (!arr.length) return
