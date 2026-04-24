@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react'
-import { Home, Lightbulb, School, ShoppingCart, User } from 'lucide-react'
+import { Home, Lightbulb, MessageCircle, School, ShoppingCart, User } from 'lucide-react'
 import HomeDashboard from './HomeDashboard.jsx'
 import InventoryPage from './InventoryPage.jsx'
 import CampusPage from './CampusPage.jsx'
 import StrategyPage from './StrategyPage.jsx'
 import ProfilePage from './ProfilePage.jsx'
+import Chatbox from './Chatbox.jsx'
 
 const TABS = [
   { id: 'home', label: 'Today', Icon: Home },
@@ -30,6 +31,7 @@ function Page({ title }) {
 function App() {
   const [activeTab, setActiveTab] = useState('home')
   const navigate = (tab) => setActiveTab(tab)
+  const [chatOpen, setChatOpen] = useState(false)
 
   const activeLabel = useMemo(
     () => TABS.find((t) => t.id === activeTab)?.label ?? 'Today',
@@ -49,7 +51,19 @@ function App() {
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <div className="h-10 w-10 rounded-2xl bg-white/10 ring-1 ring-white/10" />
+              <button
+                type="button"
+                onClick={() => navigate('profile')}
+                className="group relative h-10 w-10 rounded-2xl bg-white/10 ring-1 ring-white/10 overflow-hidden"
+                aria-label="Open profile"
+                title="Profile"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-rose-200/40 via-white/10 to-indigo-200/30 opacity-90" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-xs font-extrabold tracking-wide text-white">BD</span>
+                </div>
+                <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full bg-emerald-300 ring-2 ring-ink" />
+              </button>
             </div>
           </div>
         </div>
@@ -62,6 +76,18 @@ function App() {
           {activeTab === 'strategy' && <StrategyPage onNavigate={navigate} />}
           {activeTab === 'profile' && <ProfilePage onNavigate={navigate} />}
         </main>
+
+        {/* Floating Chat (above Profile nav) */}
+        <button
+          type="button"
+          onClick={() => setChatOpen(true)}
+          className="absolute bottom-[92px] right-6 z-40 h-12 w-12 rounded-[20px] bg-white shadow-bento ring-1 ring-black/5 flex items-center justify-center hover:bg-zinc-50"
+          aria-label="Open AI chat"
+          title="Chat"
+        >
+          <MessageCircle size={20} className="text-ink" />
+        </button>
+        <Chatbox open={chatOpen} onClose={() => setChatOpen(false)} />
 
         {/* Bottom Nav (pill, inside container) */}
         <nav className="absolute inset-x-0 bottom-0 pb-5">
