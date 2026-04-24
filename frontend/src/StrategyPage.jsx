@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import ReactMarkdown from 'react-markdown';
 
 const CONFETTI = [
   { x: -90, y: -90, r: -14, c: '#A7F3D0' },
@@ -355,8 +356,12 @@ export default function StrategyPage({ onNavigate }) {
         
         <div className="mt-3 flex flex-col gap-3">
           {chatResponse && (
-            <div className="rounded-2xl bg-zinc-50 p-4 text-sm text-zinc-800 border border-zinc-100">
-              <strong>Z.AI:</strong> {chatResponse}
+            <div className="rounded-2xl bg-zinc-50 p-4 text-sm text-zinc-800 border border-zinc-100 prose prose-sm max-w-none">
+              <p className="font-bold mb-2">Z.AI:</p>
+              {/* This converts the markdown symbols into pretty text */}
+              <ReactMarkdown>
+                {chatResponse}
+              </ReactMarkdown>
             </div>
           )}
           
