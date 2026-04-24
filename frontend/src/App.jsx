@@ -12,7 +12,7 @@ import AuthSignup from './AuthSignup.jsx'
 const TABS = [
   { id: 'home', label: 'Today', Icon: Home },
   { id: 'inventory', label: 'Stock', Icon: ShoppingCart },
-  { id: 'campus', label: 'Calendar', Icon: School },
+  { id: 'campus', label: 'Campus', Icon: School },
   { id: 'chat', label: 'Chat', Icon: MessageCircle },
   { id: 'strategy', label: 'Strategy', Icon: Lightbulb },
   { id: 'profile', label: 'Profile', Icon: User },
