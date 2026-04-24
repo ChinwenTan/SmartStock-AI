@@ -6,6 +6,8 @@ import CampusPage from './CampusPage.jsx'
 import StrategyPage from './StrategyPage.jsx'
 import ProfilePage from './ProfilePage.jsx'
 import Chatbox from './Chatbox.jsx'
+import AuthLogin from './AuthLogin.jsx'
+import AuthSignup from './AuthSignup.jsx'
 
 const TABS = [
   { id: 'home', label: 'Today', Icon: Home },
@@ -30,6 +32,9 @@ function Page({ title }) {
 }
 
 function App() {
+  const [isAuthed, setIsAuthed] = useState(false)
+  const [authStep, setAuthStep] = useState('signin') // signin | signup
+
   const [activeTab, setActiveTab] = useState('home')
   const navigate = (tab) => setActiveTab(tab)
 
@@ -41,86 +46,119 @@ function App() {
   return (
     <div className="min-h-screen px-4 py-10 font-sans">
       <div className="mx-auto h-[100dvh] w-full max-w-md rounded-[42px] bg-ink shadow-bento ring-1 ring-black/10 overflow-hidden relative flex flex-col">
-        {/* Dark top bar */}
-        <div className="px-6 pt-7 pb-4">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="font-display text-xl leading-none text-white">Bake Diary</p>
-              <p className="mt-2 text-xs font-semibold tracking-wide text-white/60">
-                {activeLabel}
-              </p>
+        {!isAuthed ? (
+          <main className="flex-1 overflow-hidden bg-cream">
+            {authStep === 'signin' && (
+              <AuthLogin
+                onSwitchSignUp={() => setAuthStep('signup')}
+                onSuccess={() => {
+                  setIsAuthed(true)
+                  setActiveTab('home')
+                }}
+              />
+            )}
+            {authStep === 'signup' && (
+              <AuthSignup
+                onSwitchSignIn={() => setAuthStep('signin')}
+                onSuccess={() => {
+                  setIsAuthed(true)
+                  setActiveTab('home')
+                }}
+              />
+            )}
+          </main>
+        ) : (
+          <>
+            {/* Dark top bar */}
+            <div className="px-6 pt-7 pb-4">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="font-display text-xl leading-none text-white">Bake Diary</p>
+                  <p className="mt-2 text-xs font-semibold tracking-wide text-white/60">
+                    {activeLabel}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => navigate('profile')}
+                    className="group relative h-10 w-10 rounded-2xl bg-white/10 ring-1 ring-white/10 overflow-hidden"
+                    aria-label="Open profile"
+                    title="Profile"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-rose-200/40 via-white/10 to-indigo-200/30 opacity-90" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-xs font-extrabold tracking-wide text-white">BD</span>
+                    </div>
+                    <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full bg-emerald-300 ring-2 ring-ink" />
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
+
+            {/* Content */}
+            <main className="flex-1 overflow-y-auto bg-cream rounded-t-[34px] pb-28">
+              {activeTab === 'home' && <HomeDashboard onNavigate={navigate} />}
+              {activeTab === 'inventory' && <InventoryPage onNavigate={navigate} />}
+              {activeTab === 'campus' && <CampusPage onNavigate={navigate} />}
+              {activeTab === 'chat' && <Chatbox onNavigate={navigate} />}
+              {activeTab === 'strategy' && <StrategyPage onNavigate={navigate} />}
+              {activeTab === 'profile' && (
+                <ProfilePage
+                  onNavigate={navigate}
+                  onLogout={() => {
+                    setIsAuthed(false)
+                    setAuthStep('signin')
+                  }}
+                />
+              )}
+            </main>
+
+            {/* Floating Chat quick-access (above nav) */}
+            {activeTab !== 'chat' ? (
               <button
                 type="button"
-                onClick={() => navigate('profile')}
-                className="group relative h-10 w-10 rounded-2xl bg-white/10 ring-1 ring-white/10 overflow-hidden"
-                aria-label="Open profile"
-                title="Profile"
+                onClick={() => navigate('chat')}
+                className="absolute bottom-[92px] right-6 z-40 h-12 w-12 rounded-[20px] bg-white shadow-bento ring-1 ring-black/5 flex items-center justify-center hover:bg-zinc-50"
+                aria-label="Open AI chat"
+                title="Chat"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-rose-200/40 via-white/10 to-indigo-200/30 opacity-90" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xs font-extrabold tracking-wide text-white">BD</span>
-                </div>
-                <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full bg-emerald-300 ring-2 ring-ink" />
+                <MessageCircle size={20} className="text-ink" />
               </button>
-            </div>
-          </div>
-        </div>
+            ) : null}
 
-        {/* Content */}
-        <main className="flex-1 overflow-y-auto bg-cream rounded-t-[34px] pb-28">
-          {activeTab === 'home' && <HomeDashboard onNavigate={navigate} />}
-          {activeTab === 'inventory' && <InventoryPage onNavigate={navigate} />}
-          {activeTab === 'campus' && <CampusPage onNavigate={navigate} />}
-          {activeTab === 'chat' && <Chatbox onNavigate={navigate} />}
-          {activeTab === 'strategy' && <StrategyPage onNavigate={navigate} />}
-          {activeTab === 'profile' && <ProfilePage onNavigate={navigate} />}
-        </main>
-
-        {/* Floating Chat quick-access (above nav) */}
-        {activeTab !== 'chat' ? (
-          <button
-            type="button"
-            onClick={() => navigate('chat')}
-            className="absolute bottom-[92px] right-6 z-40 h-12 w-12 rounded-[20px] bg-white shadow-bento ring-1 ring-black/5 flex items-center justify-center hover:bg-zinc-50"
-            aria-label="Open AI chat"
-            title="Chat"
-          >
-            <MessageCircle size={20} className="text-ink" />
-          </button>
-        ) : null}
-
-        {/* Bottom Nav (pill, inside container) */}
-        <nav className="absolute inset-x-0 bottom-0 pb-5">
-          <div className="mx-5 rounded-[28px] bg-white/90 backdrop-blur ring-1 ring-black/5 shadow-bento">
-            <div className="grid grid-cols-6 p-2">
-              {TABS.map(({ id, label, Icon }) => {
-                const isActive = id === activeTab
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => setActiveTab(id)}
-                    className="flex flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 transition-colors"
-                  >
-                    <span
-                      className={
-                        'flex h-10 w-10 items-center justify-center rounded-2xl transition-colors ' +
-                        (isActive ? 'bg-ink text-white' : 'bg-transparent text-zinc-500 hover:bg-zinc-100')
-                      }
-                    >
-                      <Icon size={20} strokeWidth={2.2} />
-                    </span>
-                    <span className={'text-[11px] font-semibold ' + (isActive ? 'text-ink' : 'text-zinc-500')}>
-                      {label}
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-        </nav>
+            {/* Bottom Nav (pill, inside container) */}
+            <nav className="absolute inset-x-0 bottom-0 pb-5">
+              <div className="mx-5 rounded-[28px] bg-white/90 backdrop-blur ring-1 ring-black/5 shadow-bento">
+                <div className="grid grid-cols-6 p-2">
+                  {TABS.map(({ id, label, Icon }) => {
+                    const isActive = id === activeTab
+                    return (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => setActiveTab(id)}
+                        className="flex flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 transition-colors"
+                      >
+                        <span
+                          className={
+                            'flex h-10 w-10 items-center justify-center rounded-2xl transition-colors ' +
+                            (isActive ? 'bg-ink text-white' : 'bg-transparent text-zinc-500 hover:bg-zinc-100')
+                          }
+                        >
+                          <Icon size={20} strokeWidth={2.2} />
+                        </span>
+                        <span className={'text-[11px] font-semibold ' + (isActive ? 'text-ink' : 'text-zinc-500')}>
+                          {label}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            </nav>
+          </>
+        )}
       </div>
     </div>
   )
