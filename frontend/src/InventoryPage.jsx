@@ -458,7 +458,6 @@ export default function InventoryPage() {
       <div className="mt-6">
         <div className="flex items-center justify-between">
           <p className="text-xs font-semibold tracking-wide text-zinc-600">Current Stock</p>
-          <p className="text-xs text-zinc-400">Hardcoded + added items</p>
         </div>
 
         <div className="mt-3 space-y-3 max-h-[400px] overflow-y-auto pr-1">
