@@ -11,6 +11,7 @@ const TABS = [
   { id: 'home', label: 'Today', Icon: Home },
   { id: 'inventory', label: 'Stock', Icon: ShoppingCart },
   { id: 'campus', label: 'Calendar', Icon: School },
+  { id: 'chat', label: 'Chat', Icon: MessageCircle },
   { id: 'strategy', label: 'Strategy', Icon: Lightbulb },
   { id: 'profile', label: 'Profile', Icon: User },
 ]
@@ -31,7 +32,6 @@ function Page({ title }) {
 function App() {
   const [activeTab, setActiveTab] = useState('home')
   const navigate = (tab) => setActiveTab(tab)
-  const [chatOpen, setChatOpen] = useState(false)
 
   const activeLabel = useMemo(
     () => TABS.find((t) => t.id === activeTab)?.label ?? 'Today',
@@ -73,26 +73,28 @@ function App() {
           {activeTab === 'home' && <HomeDashboard onNavigate={navigate} />}
           {activeTab === 'inventory' && <InventoryPage onNavigate={navigate} />}
           {activeTab === 'campus' && <CampusPage onNavigate={navigate} />}
+          {activeTab === 'chat' && <Chatbox onNavigate={navigate} />}
           {activeTab === 'strategy' && <StrategyPage onNavigate={navigate} />}
           {activeTab === 'profile' && <ProfilePage onNavigate={navigate} />}
         </main>
 
-        {/* Floating Chat (above Profile nav) */}
-        <button
-          type="button"
-          onClick={() => setChatOpen(true)}
-          className="absolute bottom-[92px] right-6 z-40 h-12 w-12 rounded-[20px] bg-white shadow-bento ring-1 ring-black/5 flex items-center justify-center hover:bg-zinc-50"
-          aria-label="Open AI chat"
-          title="Chat"
-        >
-          <MessageCircle size={20} className="text-ink" />
-        </button>
-        <Chatbox open={chatOpen} onClose={() => setChatOpen(false)} />
+        {/* Floating Chat quick-access (above nav) */}
+        {activeTab !== 'chat' ? (
+          <button
+            type="button"
+            onClick={() => navigate('chat')}
+            className="absolute bottom-[92px] right-6 z-40 h-12 w-12 rounded-[20px] bg-white shadow-bento ring-1 ring-black/5 flex items-center justify-center hover:bg-zinc-50"
+            aria-label="Open AI chat"
+            title="Chat"
+          >
+            <MessageCircle size={20} className="text-ink" />
+          </button>
+        ) : null}
 
         {/* Bottom Nav (pill, inside container) */}
         <nav className="absolute inset-x-0 bottom-0 pb-5">
           <div className="mx-5 rounded-[28px] bg-white/90 backdrop-blur ring-1 ring-black/5 shadow-bento">
-            <div className="grid grid-cols-5 p-2">
+            <div className="grid grid-cols-6 p-2">
               {TABS.map(({ id, label, Icon }) => {
                 const isActive = id === activeTab
                 return (
