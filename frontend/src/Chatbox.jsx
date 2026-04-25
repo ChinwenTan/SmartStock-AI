@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Camera, ImagePlus, Mic, Paperclip, Plus, Send, Sparkles } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import ReactMarkdown from 'react-markdown';
 
 function nowId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`
