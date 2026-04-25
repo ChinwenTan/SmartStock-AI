@@ -255,9 +255,9 @@ export default function Chatbox({ onNavigate }) {
         {messages.map((m) => (
           <Bubble key={m.id} role={m.role}>
             {m.type === 'text' ? (
-              <p className={'text-sm leading-relaxed ' + (m.role === 'user' ? 'text-white/95' : 'text-zinc-800')}>
-                {m.text}
-              </p>
+                <div className={'text-sm leading-relaxed ' + (m.role === 'user' ? 'text-white/95' : 'text-zinc-800')}>
+                    <ReactMarkdown>{m.text}</ReactMarkdown>
+                </div>
             ) : null}
 
             {m.type === 'file' ? (
