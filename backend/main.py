@@ -26,7 +26,10 @@ async def chat(request: ChatRequest):
     try:
         response = client.chat.completions.create(
             model="ilmu-glm-5.1",
-            messages=[{"role": "user", "content": request.message}],
+            messages=[
+                {"role": "system", "content": "You are the SyncBite AI Assistant. Your goal is to help a cafe owner manage inventory, suggest sales promos, and analyze stock levels. Do not give financial or stock market investment advice. If a user asks for stock market advice, politely redirect them to managing their cafe inventory instead."},
+                {"role": "user", "content": request.message}
+            ],
             timeout=60.0
         )
         return {"reply": response.choices[0].message.content}
