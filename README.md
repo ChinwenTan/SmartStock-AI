@@ -1,6 +1,6 @@
 # SyncBite AI
 
-## 🎥 10-Minute Pitching Video
+10-Minute Pitching Video
 🔗 **Watch Full Demo & Pitch Here:**  
 [Insert Google Drive / YouTube / OneDrive Link Here]
 
@@ -11,14 +11,14 @@ SyncBite AI is an AI-enabled inventory management and decision intelligence plat
 SyncBite AI solves this problem by combining real-time inventory tracking, demand forecasting, and AI-powered recommendations.
 
 ## 🚀 Key Features
-- 📦 Smart Inventory Management  
-- 📈 Demand Forecasting using AI  
-- ⚠️ Low Stock Alerts  
-- 💰 Cost & Profit Insights  
-- 📊 Dashboard Analytics  
-- 🧠 AI Decision Recommendations  
-- 👥 Multi-user Staff Access  
-- 🔐 Secure Login System  
+- Smart Inventory Management  
+- Demand Forecasting using AI  
+- Low Stock Alerts  
+- Cost & Profit Insights  
+- Dashboard Analytics  
+- AI Decision Recommendations  
+- Multi-user Staff Access  
+- Secure Login System  
 
 ## 🎯 Problem Statement
 
