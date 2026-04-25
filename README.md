@@ -69,7 +69,7 @@ SyncBite-AI shifts merchants from *reactive waste* to *proactive AI-driven recov
 | **Product Requirements Document (PRD)** | [View PRD.pdf](./documents/UMHackathon2026%20Product%20Requirement%20Documentation_4NewBee.pdf) |
 | **System Architecture Document (SAD)** | [View SAD.pdf](./documents/UMHakcathon2026%20System%20Analysis%20Documentation_4NewBee.pdf) |
 | **QA & Testing Document (QATD)** | [View QATD.pdf](./documents/UMHakcathon2026%20Testing%20Analysis%20Documentation_4NewBee%20(1).pdf) |
-| **Official Pitch Deck** | [View Pitch Deck](./documents/Pitch_Deck.pdf) |
+| **Official Pitch Deck** | [View Pitch Deck](./documents/SyncBite-AI_Pitch%20Deck_4NewBee.pdf) |
 
 ## ▶️ How to Run This Project
 
