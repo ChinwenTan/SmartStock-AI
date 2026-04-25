@@ -255,18 +255,17 @@ export default function Chatbox({ onNavigate }) {
       >
         {messages.map((m) => (
           <Bubble key={m.id} role={m.role}>
-            {m.type === 'text' ? (
+              {m.type === 'text' ? (
                 <div
-                    className={
-                    'text-sm leading-relaxed prose prose-sm max-w-none ' +
-                    (m.role === 'user'
-                        ? 'text-white/95 prose-invert prose-headings:text-white prose-strong:text-white prose-li:text-white/95'
-                        : 'text-zinc-800 prose-headings:text-zinc-900 prose-strong:text-zinc-900 prose-li:text-zinc-700')
-                    }
+                  className={`text-sm leading-relaxed prose prose-sm max-w-none ${
+                    m.role === 'user'
+                      ? 'text-white/95 prose-invert prose-headings:text-white prose-strong:text-white prose-li:text-white/95'
+                      : 'text-zinc-800 prose-headings:text-zinc-900 prose-strong:text-zinc-900 prose-li:text-zinc-700'
+                  }`}
                 >
-                    <ReactMarkdown>{m.text}</ReactMarkdown>
+                  <ReactMarkdown>{m.text}</ReactMarkdown>
                 </div>
-                ) : null}
+              ) : null}
 
             {m.type === 'file' ? (
               <div>
