@@ -1,8 +1,7 @@
 # SyncBite AI
 
-10-Minute Pitching Video
 🔗 **Watch Full Demo & Pitch Here:**  
-[Insert Google Drive / YouTube / OneDrive Link Here]
+https://youtu.be/1iiFbxupJ0Y
 
 ## 📌 Project Overview
 
