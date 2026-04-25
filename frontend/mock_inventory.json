@@ -1,0 +1,29 @@
+[
+  {
+    "id": "item_001",
+    "name": "Strawberry Shortcake",
+    "quantityRemaining": 20,
+    "costPriceRM": 5.00,
+    "sellingPriceRM": 12.00,
+    "hoursUntilExpiry": 4,
+    "riskTier": "High Risk"
+  },
+  {
+    "id": "item_002",
+    "name": "Matcha Swiss Roll",
+    "quantityRemaining": 12,
+    "costPriceRM": 4.50,
+    "sellingPriceRM": 10.00,
+    "hoursUntilExpiry": 18,
+    "riskTier": "Medium Risk"
+  },
+  {
+    "id": "item_003",
+    "name": "Butter Croissant",
+    "quantityRemaining": 30,
+    "costPriceRM": 2.00,
+    "sellingPriceRM": 6.50,
+    "hoursUntilExpiry": 48,
+    "riskTier": "Safe"
+  }
+]
