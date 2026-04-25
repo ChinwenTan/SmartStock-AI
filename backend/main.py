@@ -23,15 +23,21 @@ class ChatRequest(BaseModel):
 
 @app.post("/chat")
 async def chat(request: ChatRequest):
+    if len(request.message) > 500: # Adjust based on your limit
+        return {"reply": "That message is too long! Please keep it brief so I can help you better."}
+
     try:
         response = client.chat.completions.create(
             model="ilmu-glm-5.1",
-            messages=[{"role": "system", "content": "You are the SyncBite AI Assistant. Keep all responses under 60 words. Be professional, concise, and focused only on cafe inventory and marketing. If asked about financial investment, redirect to inventory management. Do not give long explanations."}],
+            messages=[{"role": "user", "content": request.message}],
             timeout=60.0
         )
         return {"reply": response.choices[0].message.content}
+    
     except Exception as e:
-        return {"error": str(e)}
+        if "maximum context length" in str(e).lower():
+            return {"reply": "I'm sorry, that was too much information for me to process. Can you summarize it?"}
+        return {"error": "Server error. Please try a shorter message."}
 
 if __name__ == "__main__":
     import uvicorn
