@@ -70,3 +70,8 @@ Pitch Deck
 
 ## ▶️ How to Run This Project
 https://smart-stock-ai-beryl.vercel.app/ 
+
+### Run in Terminal
+cd frontend
+node -v
+npm -v
